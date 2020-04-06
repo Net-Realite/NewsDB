@@ -1,0 +1,69 @@
+insert into article (titre, contenu) values ('news1', 'this is such a great news');
+
+
+DROP DATABASE IFP;
+CREATE DATABASE IFP;
+use IFP;
+
+CREATE TABLE reporter (
+id_reporter int PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START with 1, INCREMENT BY 1),
+name varchar(255) ,
+credit int);
+
+
+CREATE TABLE news (
+id_news INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START with 1, INCREMENT BY 1),
+title VARCHAR(255),
+contain CLOB,
+date_post DATE,
+id_reporter INT,
+id_rating INT);
+
+alter table news
+add constraint FK_news_reporter_id
+foreign key (id_reporter)
+references reporter(id_reporter);
+
+
+CREATE TABLE rating (
+id_rating INT  PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START with 1, INCREMENT BY 1),
+note int,
+valid boolean,
+commentary varchar(255));
+
+ALTER TABLE news
+add constraint FK_news_rating_id
+foreign key (id_rating)
+references rating(id_rating);
+
+
+CREATE TABLE newsTag(
+id_newsTag int PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START with 1, INCREMENT BY 1),
+id_news int,
+id_tag int);
+
+CREATE TABLE tag (
+id_tag int PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START with 1, INCREMENT BY 1),
+tag varchar(255));
+
+ALTER TABLE newsTag
+add constraint FK_newsTag_news_id
+foreign key (id_news)
+references news(id_news);
+
+ALTER TABLE newsTag
+add constraint FK_newsTag_tag_id
+foreign key (id_tag)
+references tag(id_tag);
+
+/* Ajout de données REPORTER */
+INSERT INTO reporter values (1,"bob",5);
+INSERT INTO reporter values (2,"mike",2);
+
+/* Ajout de données Rating */
+INSERT INTO rating values (1,5,true,"I love");
+INSERT INTO rating values (2,1,true, "I dislike");
+
+/* Ajout de données NEWS */
+INSERT INTO news values(1,"le journal intime", "blablabla", '2020-09-01', 1,2);
+INSERT INTO news values(2,"Titre de fou ", "popopo", '2018-07-07', 2,1);
