@@ -21,7 +21,7 @@ public class News1 {
         }
         System.out.println("Saisie d'un article (pour information).");
         try {
-            PreparedStatement saisie1 = cx1.prepareStatement("insert into news(title, contain) values ('Astronomie', 'Decouverte d une planete')");
+            PreparedStatement saisie1 = cx1.prepareStatement("insert into news(id_reporter, title, contain) values (1, 'Astronomie', 'Decouverte d une planete')");
             PreparedStatement saisie2 = cx1.prepareStatement("insert into reporter(name, credit) values ('Alex',4)");
             saisie1.execute();
             saisie2.execute();
@@ -59,15 +59,16 @@ public class News1 {
      //   String repReporter = input.nextLine();
         int repReporter = input.nextInt();
         try {
-            PreparedStatement preparedStatement2 = cx2.prepareStatement("SELECT TITLE FROM news WHERE ID_REPORTER = ?");
+            PreparedStatement preparedStatement2 = cx2.prepareStatement("SELECT TITLE, CONTAIN FROM news WHERE ID_REPORTER = ?");
     //        preparedStatement2.setString(1, repReporter);
             preparedStatement2.setInt(1, repReporter);
             ResultSet resultSet2 = preparedStatement2.executeQuery();
             while (resultSet2.next() ) {
-                String rs2 = resultSet2.getString("TITRE");
-                System.out.println("Le titre de l'article écrit par " + repReporter + " est : " + rs2);
-                cx2.close();
+                String rs2 = resultSet2.getString("TITLE");
+                String rs2b = resultSet2.getString("CONTAIN");
+                System.out.println("Le titre de l'article écrit par " + repReporter + " est : " + rs2 + " et son contenu est : "+ rs2b);
             }
+            cx2.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
