@@ -4,6 +4,7 @@
 import java.sql.*;
 import java.util.Scanner;
 
+
 public class News1 {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
